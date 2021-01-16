@@ -1,6 +1,10 @@
 answers = {
     q1: "a",
-    q2: "c"
+    q2: "c",
+    q3: "d",
+    q4: "b",
+    q5: "b",
+    q6: "d"
 }
 
 function checkAnswer(question) {
