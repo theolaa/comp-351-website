@@ -1,17 +1,90 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="shortcut icon" type="image/ico" href="../../img/favicon.ico"/>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <title>THEO COMP 351</title>
-    <body class="bg-light">
-        <div class="container">
-            <h1>Theo's COMP 351 Website - Lab 1 - Hard-Coded Quiz</h1>
-            <a href="..">BACK</a>
+
+<head>
+    <link rel="shortcut icon" type="image/ico" href="../../img/favicon.ico" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link href="../../css/code_highlighting.css" rel="stylesheet" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<title>THEO COMP 351</title>
+
+<body class="bg-light">
+    <div class="container">
+        <h1>Theo's COMP 351 Website - Lab 1 - Hard-Coded Quiz</h1>
+
+        <div class="border row">
+            <div class="col-1" id="q1"></div>
+            <div class="col m-3">
+                Q1 - What is the final output of this snippet?
+                <hr>
+                <pre class="bg-white">
+
+                <span class="variables">let</span> x <span class="operators">=</span> 20;
+                <span class="loops">for</span> (i <span class="operators">=</span> 0; i <span class="operators">&lt;</span> 3; i<span class="operators">++</span>) {
+                    x <span class="operators">+=</span> i;
+                }
+                <span class="objects">console</span>.log(x);
+            </pre>
+                <hr>
+                <ul class="list-group">
+                    <li class="list-group-item"><input type="radio" name="q1" value="a"> 30</li>
+                    <li class="list-group-item"><input type="radio" name="q1" value="b"> 65</li>
+                    <li class="list-group-item"><input type="radio" name="q1" value="c"> 33</li>
+                    <li class="list-group-item"><input type="radio" name="q1" value="d"> 23</li>
+                </ul>
+
+                <hr>
+
+                <button type="button" onclick="checkAnswer('q1')" id="q1button" class="btn bg-warning text-white">Check
+                    Answer</button>
+
+            </div>
+        </div>
+        <div class="border row">
+            <div class="col-1" id="q2"></div>
+            <div class="col m-3">
+                Q2 - Given the following JSON object, which response is equivalent to <span class="myCode"> <span
+                        class="objects">food</span>.name <span class="operators">==</span> <span
+                        class="strings">"pizza"</span></span>?
+                <hr>
+                <pre class="bg-white">
+                <span class="objects">food</span> <span class="operators">=</span> {
+                    <span class="variables">name</span>: <span class="strings">"pizza"</span>
+                }
+            </pre>
+                <hr>
+                <ul class="list-group">
+                    <li class="list-group-item"><input type="radio" name="q2" value="a"> <span class="myCode"><span
+                                class="objects">food</span>(<span class="strings">"name"</span>) <span
+                                class="operators">==</span> <span class="strings">"pizza"</span></span></li>
+                    <li class="list-group-item"><input type="radio" name="q2" value="b"> <span class="myCode"><span
+                                class="objects">food</span>{<span class="strings">"name"</span>} <span
+                                class="operators">==</span> <span class="strings">"pizza"</span></span></li>
+                    <li class="list-group-item"><input type="radio" name="q2" value="c"> <span class="myCode"><span
+                                class="objects">food</span>[<span class="strings">"name"</span>] <span
+                                class="operators">==</span> <span class="strings">"pizza"</span></span></li>
+                    <li class="list-group-item"><input type="radio" name="q2" value="d"> <span class="myCode"><span
+                                class="objects">food</span>.<span class="strings">"name"</span> <span
+                                class="operators">==</span> <span class="strings">"pizza"</span></span></li>
+                </ul>
+
+                <hr>
+
+                <button type="button" onclick="checkAnswer('q2')" id="q2button" class="btn bg-warning text-white">Check
+                    Answer</button>
+
+            </div>
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-    </body>
+        <a href=".">BACK</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+    <script src="../../js/quiz.js"></script>
+</body>
+
 </html>
