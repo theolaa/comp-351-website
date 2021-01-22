@@ -7,7 +7,7 @@ function removeQuestion(e) {
         parent = e.parentNode;
         e.remove();
         for (i = 0; i < parent.children.length; i++) {
-            parent.replaceChild(renumberQuestion(parent.children[i], i+1), parent.children[i]);
+            parent.replaceChild(renumberQuestion(parent.children[i], i + 1), parent.children[i]);
         }
     }
 }
@@ -35,8 +35,8 @@ function renumberQuestion(node, number) {
     formGroup.children[3].children[2].setAttribute("name", "code" + number);
     formGroup.children[3].children[2].setAttribute("id", "code" + number);
     formGroup.children[3].children[2].setAttribute("form", "questionForm" + number);
-    formGroup.children[5].children[2].setAttribute("name", "correctAnswer"+number);
-    formGroup.children[5].children[2].setAttribute("id", "correctAnswer"+number);
+    formGroup.children[5].children[2].setAttribute("name", "correctAnswer" + number);
+    formGroup.children[5].children[2].setAttribute("id", "correctAnswer" + number);
 
     return node;
 
