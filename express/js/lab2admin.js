@@ -1,9 +1,60 @@
-questionAdder = document.getElementById("questionInput");
-questionEditor = document.getElementById("questionEditor");
+questions = document.getElementById("questions");
 
-options = document.getElementById("options");
-addOptionButton = document.getElementById("addOptionButton");
-correctAnswer = document.getElementById("correctAnswer");
+function removeQuestion(e) {
+    if (e.parentNode.children.length == 1) {
+        alert("You cannot remove the last question.");
+    } else {
+        e.remove();
+        renameQuestions();
+    }
+}
+
+function addQuestion(question, code, options, correctAnswer) {
+    questionNumber = questions.children.length + 1;
+
+    newQuestion = questions.firstElementChild.cloneNode(true);
+
+    newQuestion = renumberQuestion(newQuestion, questionNumber);
+
+    questions.append(newQuestion);
+
+}
+
+function renumberQuestion(node, number) {
+
+    node.children[0].setAttribute("id", "questionForm" + number);
+    formGroup = node.children[0].children[0];
+    formGroup.children[0].innerText = "Question " + number;
+
+    return node;
+
+}
+
+function saveQuestion() {
+    optionArray = new Array();
+    for (i = 0; i < options.children.length - 1; i++) {
+        optionArray.push(options.children[i].children[2].children[0].value);
+    }
+
+    questionJSON = {
+        id: Number(localStorage.getItem("nextID")),
+        questionText: document.getElementById("question").value,
+        code: document.getElementById("code").value,
+        options: optionArray,
+        answer: document.getElementById("correctAnswer").value
+    }
+
+    var questionsArray = [];
+    if (localStorage.getItem("questions")) {
+        questionsArray = JSON.parse(localStorage.getItem("questions"));
+    }
+    questionsArray.push(questionJSON);
+
+    localStorage.setItem("questions", JSON.stringify(questionsArray));
+
+    // Increment ID
+    localStorage.setItem("nextID", Number(localStorage.getItem("nextID")) + 1)
+}
 
 function getLetterFromInt(i) {
     switch (i) {
@@ -21,8 +72,8 @@ function getLetterFromInt(i) {
     }
 }
 
-function addOption() {
-    optionNumber = options.children.length;
+function addOption(e) {
+    optionNumber = e.children.length;
     if (optionNumber > 10) {
         alert("Cannot have more than ten options.\nSeriously, why would you want that anyways?");
         return;
@@ -63,44 +114,41 @@ function addOption() {
     option.append(textColumn);
     option.append(delButtonColumn);
 
-    addOptionButton.parentNode.insertBefore(option, addOptionButton);
+    e.insertBefore(option, e.children[e.children.length - 1]);
 
     correctAnswerOption = document.createElement("option");
     correctAnswerOption.setAttribute("value", optionLetter.toLowerCase());
     correctAnswerOption.innerText = optionLetter;
-    correctAnswer.append(correctAnswerOption);
+    e.nextElementSibling.lastElementChild.append(correctAnswerOption);
 
 }
 
 function removeOption(e) {
-    if (options.children.length <= 2) {
+    if (e.parentNode.children.length <= 2) {
         alert("You cannot remove the last option.");
     } else {
+        parent = e.parentNode;
+        e.parentNode.nextElementSibling.lastElementChild.lastElementChild.remove();
         e.parentNode.removeChild(e);
-        renameOptions();
-        correctAnswer.lastChild.remove();
+        renameOptions(parent);
     }
 }
 
-function renameOptions() {
-    for (i = 0; i < options.children.length - 1; i++) {
+function renameOptions(e) {
+    for (i = 0; i < e.children.length - 1; i++) {
         // Label
-        optionLetter = getLetterFromInt(i+1);
-        options.children[i].children[0].setAttribute("for", "option" + optionLetter + "text");
-        options.children[i].children[0].innerText = "Option " + optionLetter;
+        optionLetter = getLetterFromInt(i + 1);
+        e.children[i].children[0].setAttribute("for", "option" + optionLetter + "text");
+        e.children[i].children[0].innerText = "Option " + optionLetter;
 
         // Text Column
-        options.children[i].children[2].setAttribute("name", "option" + optionLetter + "text");
-        options.children[i].children[2].setAttribute("id", "option" + optionLetter + "text");
+        e.children[i].children[2].setAttribute("name", "option" + optionLetter + "text");
+        e.children[i].children[2].setAttribute("id", "option" + optionLetter + "text");
     }
 }
 
-function showAddQuestion() {
-    questionAdder.style.display = "block";
-    questionEditor.style.display = "none";
-}
-
-function showEditQuestion() {
-    questionEditor.style.display = "block";
-    questionAdder.style.display = "none";
+window.onload = function () {
+    if (!localStorage.getItem("nextID")) {
+        localStorage.setItem("nextID", 0);
+    }
 }
