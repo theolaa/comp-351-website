@@ -4,8 +4,11 @@ function removeQuestion(e) {
     if (e.parentNode.children.length == 1) {
         alert("You cannot remove the last question.");
     } else {
+        parent = e.parentNode;
         e.remove();
-        renameQuestions();
+        for (i = 0; i < parent.children.length; i++) {
+            parent.replaceChild(renumberQuestion(parent.children[i], i+1), parent.children[i]);
+        }
     }
 }
 
@@ -25,6 +28,15 @@ function renumberQuestion(node, number) {
     node.children[0].setAttribute("id", "questionForm" + number);
     formGroup = node.children[0].children[0];
     formGroup.children[0].innerText = "Question " + number;
+    formGroup.children[2].children[0].setAttribute("for", "questionText" + number);
+    formGroup.children[2].children[2].setAttribute("name", "questionText" + number);
+    formGroup.children[2].children[2].setAttribute("id", "questionText" + number);
+    formGroup.children[3].children[0].setAttribute("for", "code" + number);
+    formGroup.children[3].children[2].setAttribute("name", "code" + number);
+    formGroup.children[3].children[2].setAttribute("id", "code" + number);
+    formGroup.children[3].children[2].setAttribute("form", "questionForm" + number);
+    formGroup.children[5].children[2].setAttribute("name", "correctAnswer"+number);
+    formGroup.children[5].children[2].setAttribute("id", "correctAnswer"+number);
 
     return node;
 
@@ -85,7 +97,6 @@ function addOption(e) {
     option.setAttribute("id", "option" + optionLetter);
 
     label = document.createElement("label");
-    label.setAttribute("for", "option" + optionLetter + "text");
     label.innerText = "Option " + optionLetter;
 
     textColumn = document.createElement("div");
