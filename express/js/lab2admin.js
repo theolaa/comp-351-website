@@ -30,8 +30,8 @@ function addQuestion(question, code, options, correctAnswer) {
     }
 
     for (i = 0; i < options.length; i++) {
-       addOption(newQuestion.children[0].children[0].children[4]);
-       newQuestion.children[0].children[0].children[4].children[i].children[2].firstElementChild.value = options[i];
+        addOption(newQuestion.children[0].children[0].children[4]);
+        newQuestion.children[0].children[0].children[4].children[i].children[2].firstElementChild.value = options[i];
     }
 
     newQuestion = renumberQuestion(newQuestion, questionNumber);
@@ -104,6 +104,7 @@ function saveQuestions() {
 
     }
     localStorage.setItem("questions", JSON.stringify(questionsArray));
+    document.getElementById("savedTime").innerText = "Questions saved at " + currentTime();
 }
 
 function loadQuestions() {
@@ -200,6 +201,17 @@ function renameOptions(e) {
     }
 }
 
+function currentTime() {
+    var d = new Date();
+    hours = d.getHours();
+    minutes = d.getMinutes();
+    seconds = d.getSeconds();
+
+    return ((hours < 10) ? "0" + hours : hours) + ":" + ((minutes < 10) ? "0" + minutes : minutes) + ":" + ((seconds < 10) ? "0" + seconds : seconds)
+
+}
+
 window.onload = function () {
     loadQuestions();
+    setInterval(saveQuestions, 30000);
 }
