@@ -14,6 +14,7 @@ function removeQuestion(e) {
 
 // Adds question with pre-defined values
 function addQuestion(question, code, options, correctAnswer) {
+
     questionNumber = questions.children.length + 1;
     newQuestion = questions.firstElementChild.cloneNode(true);
 
@@ -21,8 +22,6 @@ function addQuestion(question, code, options, correctAnswer) {
     newQuestion.children[0].children[0].children[2].children[2].value = question;
     // Code Text
     newQuestion.children[0].children[0].children[3].children[2].value = code;
-    // Correct Answer
-    newQuestion.children[0].children[0].children[5].children[2].value = correctAnswer;
 
     while (newQuestion.children[0].children[0].children[4].children.length > 1) {
         newQuestion.children[0].children[0].children[4].firstElementChild.remove();
@@ -33,6 +32,9 @@ function addQuestion(question, code, options, correctAnswer) {
         addOption(newQuestion.children[0].children[0].children[4]);
         newQuestion.children[0].children[0].children[4].children[i].children[2].firstElementChild.value = options[i];
     }
+
+    // Correct Answer
+    newQuestion.children[0].children[0].children[5].children[2].value = correctAnswer;
 
     newQuestion = renumberQuestion(newQuestion, questionNumber);
     questions.append(newQuestion);
@@ -108,7 +110,13 @@ function saveQuestions() {
 }
 
 function loadQuestions() {
-
+    if (localStorage.getItem("questions")) {
+        storageQuestions = JSON.parse(localStorage.getItem("questions"));
+        for (i = 0; i < storageQuestions.length; i++) {
+            addQuestion(storageQuestions[i].questionText, storageQuestions[i].code, storageQuestions[i].options, storageQuestions[i].answer);
+        }
+        removeQuestion(questions.firstElementChild);
+    }
 }
 
 function getLetterFromInt(i) {
