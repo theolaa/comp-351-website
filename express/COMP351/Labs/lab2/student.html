@@ -16,30 +16,26 @@
 
         <div class="border row mt-3">
             <div class="col-1 w-100 pt-5" id="q1"></div>
-            <div class="col m-3">
-                Q1 - What is the final output of this snippet?
-                <hr>
-                <pre class="bg-white">
-
-                <span class="variables">let</span> x <span class="operators">=</span> 20;
-                <span class="loops">for</span> (i <span class="operators">=</span> 0; i <span class="operators">&lt;</span> 3; i<span class="operators">++</span>) {
-                    x <span class="operators">+=</span> i;
-                }
-                <span class="objects">console</span>.log(x);
-            </pre>
-                <hr>
-                <ul class="list-group">
-                    <li class="list-group-item"><input type="radio" name="q1" value="a"> 30</li>
-                    <li class="list-group-item"><input type="radio" name="q1" value="b"> 65</li>
-                    <li class="list-group-item"><input type="radio" name="q1" value="c"> 33</li>
-                    <li class="list-group-item"><input type="radio" name="q1" value="d"> 23</li>
-                </ul>
-
-                <hr>
-
-                <button type="button" onclick="" id="q1button" class="btn bg-warning text-white">Check
+			 <form id="questionForm1" action="javascript:void(0);">
+                    <div class="form-group">
+				<div id = "display">
+					<div id="questionText">			
+					</div>
+						<div id="options">
+						 
+						
+						</div>
+					 
+					
+				</div>
+				
+				
+                
+					</div>
+					<button type="button" onclick="check()" id="q1button" class="btn bg-warning text-white">Check
                     Answer</button>
-
+                </form>
+				
             </div>
         </div>
         <a href=".">BACK</a>
@@ -49,6 +45,7 @@
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
         crossorigin="anonymous"></script>
     <script src="../../../js/lab2student.js"></script>
+	
 </body>
 
 </html>
