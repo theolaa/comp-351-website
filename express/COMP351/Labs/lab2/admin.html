@@ -59,15 +59,15 @@
                     </div>
                 </form>
                 <div class="row">
-                    <button class="btn bg-danger text-light col-2 m-2"
+                    <button class="btn bg-danger text-light col col-sm-2 m-2"
                         onclick="removeQuestion(this.parentNode.parentNode)">Remove Question</button>
                 </div>
             </div>
         </div>
         <div class="row">
-            <button class="btn col bg-success text-light m-1" onclick="addQuestion('', '', [1,2,3,4], '')">Add
+            <button class="btn col bg-success text-light m-1" onclick="addBlankQuestion()">Add
                 Question</button>
-            <button class="btn col bg-primary text-light m-1">Save Questions</button>
+            <button class="btn col bg-primary text-light m-1" onclick="saveQuestions()">Save Questions</button>
         </div>
         <hr>
         <a href=".">BACK</a>

@@ -12,15 +12,53 @@ function removeQuestion(e) {
     }
 }
 
+// Adds question with pre-defined values
 function addQuestion(question, code, options, correctAnswer) {
     questionNumber = questions.children.length + 1;
-
     newQuestion = questions.firstElementChild.cloneNode(true);
 
+    // Question Text
+    newQuestion.children[0].children[0].children[2].children[2].value = question;
+    // Code Text
+    newQuestion.children[0].children[0].children[3].children[2].value = code;
+    // Correct Answer
+    newQuestion.children[0].children[0].children[5].children[2].value = correctAnswer;
+
+    while (newQuestion.children[0].children[0].children[4].children.length > 1) {
+        newQuestion.children[0].children[0].children[4].firstElementChild.remove();
+        newQuestion.children[0].children[0].children[5].children[2].lastElementChild.remove();
+    }
+
+    for (i = 0; i < options.length; i++) {
+       addOption(newQuestion.children[0].children[0].children[4]);
+       newQuestion.children[0].children[0].children[4].children[i].children[2].firstElementChild.value = options[i];
+    }
+
     newQuestion = renumberQuestion(newQuestion, questionNumber);
-
     questions.append(newQuestion);
+}
 
+// Adds a blank question
+function addBlankQuestion() {
+    questionNumber = questions.children.length + 1;
+    newQuestion = questions.firstElementChild.cloneNode(true);
+
+    // Question Text
+    newQuestion.children[0].children[0].children[2].children[2].value = "";
+    // Code Text
+    newQuestion.children[0].children[0].children[3].children[2].value = "";
+    // Correct Answer
+    newQuestion.children[0].children[0].children[5].children[2].value = "a";
+
+    // Prepares a single blank option
+    while (newQuestion.children[0].children[0].children[4].children.length != 2) {
+        newQuestion.children[0].children[0].children[4].children[newQuestion.children[0].children[0].children[4].children.length - 2].remove();
+        newQuestion.children[0].children[0].children[5].children[2].lastElementChild.remove();
+    }
+    newQuestion.children[0].children[0].children[4].children[0].children[2].children[0].value = "";
+
+    newQuestion = renumberQuestion(newQuestion, questionNumber);
+    questions.append(newQuestion);
 }
 
 function renumberQuestion(node, number) {
@@ -35,6 +73,7 @@ function renumberQuestion(node, number) {
     formGroup.children[3].children[2].setAttribute("name", "code" + number);
     formGroup.children[3].children[2].setAttribute("id", "code" + number);
     formGroup.children[3].children[2].setAttribute("form", "questionForm" + number);
+    formGroup.children[5].children[0].setAttribute("for", "correctAnswer" + number);
     formGroup.children[5].children[2].setAttribute("name", "correctAnswer" + number);
     formGroup.children[5].children[2].setAttribute("id", "correctAnswer" + number);
 
@@ -42,30 +81,33 @@ function renumberQuestion(node, number) {
 
 }
 
-function saveQuestion() {
-    optionArray = new Array();
-    for (i = 0; i < options.children.length - 1; i++) {
-        optionArray.push(options.children[i].children[2].children[0].value);
-    }
+function saveQuestions() {
+    questionsArray = [];
+    for (i = 0; i < questions.children.length; i++) {
+        console.log("Saving Question " + (i + 1));
 
-    questionJSON = {
-        id: Number(localStorage.getItem("nextID")),
-        questionText: document.getElementById("question").value,
-        code: document.getElementById("code").value,
-        options: optionArray,
-        answer: document.getElementById("correctAnswer").value
-    }
+        options = [];
 
-    var questionsArray = [];
-    if (localStorage.getItem("questions")) {
-        questionsArray = JSON.parse(localStorage.getItem("questions"));
-    }
-    questionsArray.push(questionJSON);
+        for (j = 0; j < questions.children[i].children[0].children[0].children[4].children.length - 1; j++) {
+            options.push(questions.children[i].children[0].children[0].children[4].children[j].children[2].firstElementChild.value);
+        }
 
+        question = {
+            "questionText": questions.children[i].children[0].children[0].children[2].children[2].value,
+            "code": questions.children[i].children[0].children[0].children[3].children[2].value,
+            "options": options,
+            "answer": questions.children[i].children[0].children[0].children[5].children[2].value
+
+        }
+
+        questionsArray.push(question);
+
+    }
     localStorage.setItem("questions", JSON.stringify(questionsArray));
+}
 
-    // Increment ID
-    localStorage.setItem("nextID", Number(localStorage.getItem("nextID")) + 1)
+function loadQuestions() {
+
 }
 
 function getLetterFromInt(i) {
@@ -159,7 +201,5 @@ function renameOptions(e) {
 }
 
 window.onload = function () {
-    if (!localStorage.getItem("nextID")) {
-        localStorage.setItem("nextID", 0);
-    }
+    loadQuestions();
 }
