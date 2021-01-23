@@ -110,10 +110,12 @@ function saveQuestions() {
 }
 
 function loadQuestions() {
+
+    // Gotta use "k" here because if I use "i" it messes up for some reason...
     if (localStorage.getItem("questions")) {
         storageQuestions = JSON.parse(localStorage.getItem("questions"));
-        for (i = 0; i < storageQuestions.length; i++) {
-            addQuestion(storageQuestions[i].questionText, storageQuestions[i].code, storageQuestions[i].options, storageQuestions[i].answer);
+        for (k = 0; k < storageQuestions.length; k++) {
+            addQuestion(storageQuestions[k].questionText, storageQuestions[k].code, storageQuestions[k].options, storageQuestions[k].answer);
         }
         removeQuestion(questions.firstElementChild);
     }
