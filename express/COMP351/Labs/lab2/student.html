@@ -11,42 +11,47 @@
 <title>THEO COMP 351</title>
 
 <body class="bg-light">
-    <div class="container">
+    <div class="container" id="mainContainer">
         <h1>Theo's COMP 351 Website - Lab 2 - Dynamic Quiz - Student Page</h1>
 
-        <div class="border row mt-3">
-            <div class="col-1 w-100 pt-5" id="q1"></div>
-			 <form id="questionForm1" action="javascript:void(0);">
-                    <div class="form-group">
-				<div id = "display">
-					<div id="questionText">	</div>		
-					 <div id="code">	</div>
-					 <br></br>
-					  
-						<div id="options"> </div>					 
-						
-						
-					 
-					
-				</div>
-				
-				
-                
-					</div>
-					<button type="button" onclick="check()" id="q1button" class="btn bg-warning text-white">Check
-                    Answer</button>
-                </form>
-				
-            </div>
+        <div id="questions">
+
         </div>
         <a href=".">BACK</a>
+        <div id="extraSpace"></div>
+        <div id="resultContainer" class="p-5 border fixed-bottom mt-5 bg-dark text-light" style="display: none;">
+            <div>
+                <h3 id="results" class="text-center"></h3>
+                <h3 class="text-center"><button class="btn bg-warning" onclick="reset()">Retry</button></h3>
+            </div>
+        </div>    
     </div>
+    <div class="border p-3 mb-3 rounded" id="template" style="display: none;">
+        <div class="col-1 w-100 pt-4"></div>
+        <div>[QUESTION]</div>
+        <hr>
+        <pre class="bg-white p-3" id="code"></pre>
+        <hr>
+        <ul class="list-group" id="options">
+
+        </ul>
+        <hr>
+        <button type="button" onclick="" class="btn bg-warning text-white">Check
+            Answer</button>
+
+    </div>
+
+    <label id="optionTemplate" style="display: none;">
+        <li class="list-group-item">
+            <input type="radio" class="m-2">
+            <span class="align-text-bottom">[OPTION]</span>
+        </li>
+    </label>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
         crossorigin="anonymous"></script>
     <script src="../../../js/lab2student.js"></script>
-	
 </body>
 
 </html>
