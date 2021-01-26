@@ -16,8 +16,8 @@ function loadQuestions() {
 			newQuestion.style.display = "block";
 			newQuestion.id = "q" + i;
 			newQuestion.firstElementChild.id = "q" + i + "CorrectIndicator";
-			newQuestion.children[1].innerText = "Question " + (i + 1) + " - " + retrieve[i].questionText;
-			newQuestion.children[3].innerText = retrieve[i].code;
+			newQuestion.children[1].innerHTML = "Question " + (i + 1) + " - " + retrieve[i].questionText;
+			newQuestion.children[3].innerHTML = retrieve[i].code;
 
 			for (j = 0; j < retrieve[i].options.length; j++) {
 				option = optionTemplate.cloneNode(true);
@@ -25,11 +25,11 @@ function loadQuestions() {
 				option.id = "q" + (i + 1) + getLetterFromInt(j + 1);
 				option.firstElementChild.firstElementChild.name = "q" + (i + 1);
 				option.firstElementChild.firstElementChild.value = getLetterFromInt(j + 1);
-				option.firstElementChild.children[1].innerText = retrieve[i].options[j];
+				option.firstElementChild.children[1].innerHTML = retrieve[i].options[j];
 				newQuestion.children[5].append(option);
 			}
 
-			newQuestion.children[7].setAttribute("onclick", "checkAnswer(" + i + ")");
+			newQuestion.children[7].setAttribute("onclick", "checkAnswer(" + i + ", this)");
 
 			questions.append(newQuestion);
 
@@ -39,31 +39,37 @@ function loadQuestions() {
 	}
 }
 
-function checkAnswer(questionNumber) {
+function checkAnswer(questionNumber, e) {
 	options = document.getElementsByName("q" + (questionNumber + 1));
-	highlight = document.getElementById("q" + questionNumber + "CorrectIndicator");
 	for (i = 0; i < options.length; i++) {
 		if (options[i].checked) {
 			questionsAnswered++;
+			e.disabled = true;
 			if (options[i].value == retrieve[questionNumber].answer) {
 				score++;
-				highlight.style.backgroundColor = "lightgreen";
+				options[i].parentNode.style.backgroundColor = "lightgreen";
 			} else {
-				highlight.style.backgroundColor = "lightcoral";
+				options[i].parentNode.style.backgroundColor = "lightcoral";
+				for (j = 0; j < options.length; j++) {
+					if (options[j].value == retrieve[questionNumber].answer) {
+						options[j].parentNode.style.backgroundColor = "darkseagreen";
+					}
+				}
 			}
+
 			if (questionsAnswered == retrieve.length) {
 				document.getElementById("resultContainer").style.display = "block";
-				document.getElementById("extraSpace").style.marginTop = "150px";
+				document.getElementById("extraSpace").style.marginTop = "200px";
 				results.innerText = "You scored " + score + "/" + questionsAnswered;
-				window.scrollTo(0,document.body.scrollHeight);
+				window.scrollTo(0, document.body.scrollHeight);
 			}
 		}
 	}
 }
 
 function reset() {
-	window.scrollTo(0,0);
-	setTimeout(function () {location.reload()}, 1000);
+	window.scrollTo(0, 0);
+	setTimeout(function () { location.reload() }, 1000);
 }
 
 function getLetterFromInt(i) {

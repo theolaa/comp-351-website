@@ -223,5 +223,6 @@ function currentTime() {
 
 window.onload = function () {
     loadQuestions();
-    setInterval(saveQuestions, 30000);
+    saveQuestions();
+    setInterval(saveQuestions, 2000);
 }
