@@ -1,4 +1,5 @@
 const http = require('http');
+const url = require('url');
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -13,3 +14,4 @@ const server = http.createServer(app);
 port = (process.env.PORT || 8080)
 server.listen(port);
 console.debug('Server listening on port ' + port);
+console.log(__dirname);
