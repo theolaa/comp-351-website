@@ -17,10 +17,15 @@
                 <h3>Automatic Method</h3>
                 Write: (Text to write to file)
                 <div class="row"><input type="text" name="write" id="write" class="col"><button
-                        class="btn col-2 bg-primary text-light" onclick="window.location='./writeFile/?text=' + document.getElementById('write').value">Write</button></div>
+                        class="btn col-2 bg-primary text-light"
+                        onclick="window.location='./writeFile/?text=' + document.getElementById('write').value">Write</button>
+                </div>
                 Read: (File name)
                 <div class="row"><input type="text" name="read" id="read" class="col"><button
-                        class="btn col-2 bg-primary text-light" onclick="window.location='./readFile/' + document.getElementById('read').value">Read</button></div>
+                        class="btn col-2 bg-primary text-light"
+                        onclick="window.location='./readFile/' + document.getElementById('read').value">Read</button>
+                </div>
+                <button class="row btn bg-danger text-light my-2" onclick="window.location='./delFile/'">Delete File</button>
             </div>
             <div class="col">
                 <h3>Manual Method</h3>

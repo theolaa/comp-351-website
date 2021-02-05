@@ -31,6 +31,11 @@ app.get("/COMP351/Labs/lab4/readFile/*", function (req, res) {
   });
   //res.send(fs.readFileSync(path.normalize(req.url + "../file.txt")));
 });
+app.get("/COMP351/Labs/lab4/delFile", function (req, res) {
+  fs.unlink(path.join(__dirname + "/express/COMP351/Labs/lab4/readFile/file.txt"), function() {
+    res.send("file.txt deleted");
+  })
+});
 app.use(express.static('express'));
 
 const server = http.createServer(app);
