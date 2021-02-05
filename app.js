@@ -11,7 +11,8 @@ const app = express();
 app.get("/COMP351/Labs/lab4/writeFile", function (req, res) {
   let q = url.parse(req.url, true);
   if (q.query["text"]) {
-    fs.writeFile(path.join(__dirname + "/express/COMP351/Labs/lab4/readFile/file.txt"), q.query["text"], function () {
+    fs.app
+    fs.appendFile(path.join(__dirname + "/express/COMP351/Labs/lab4/readFile/file.txt"), q.query["text"]+"\n", function () {
       res.send("'" + q.query["text"] + "' saved to lab4/readFile/file.txt");
     });
   } else {
