@@ -62,7 +62,6 @@ http.createServer(function (req, res) {
           res.writeHead(200, { "Access-Control-Allow-Origin": "*" });
           res.end("Error writing to DB");
         } else {
-          console.log(res);
           res.writeHead(200, { "Access-Control-Allow-Origin": "*" });
           res.end(q.query.name + ":" + q.query.score + " was stored in the DB");
         }
@@ -74,12 +73,21 @@ http.createServer(function (req, res) {
   // Lab 5 Read from DB
   else if (q.pathname.includes("/COMP351/Labs/lab5/read")) {
     if (DBconnected) {
-      con.query('SELECT FROM score WHERE TRUE;', function (err, rows) {
+      con.query('SELECT * FROM score;', function (err, result, fields) {
         if (err) {
           console.log(err);
-          return;
+          res.writeHead(200, { "Access-Control-Allow-Origin": "*" });
+          res.end("Error reading from DB");
+        } else {
+          console.log(result);
+          res.writeHead(200, { "Access-Control-Allow-Origin": "*" });
+          for (i = 0; i < result.length; i++) {
+            res.write(result[i].name + ":" + result[i].score + "\n");
+          }
+          res.end();
         }
       });
+      return;
     }
   }
 
