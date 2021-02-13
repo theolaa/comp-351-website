@@ -25,7 +25,7 @@ http.createServer(function (req, res) {
   if (q.pathname == "/COMP351/Labs/lab4/writeFile/") {
     console.log("Writefile");
     if (q.query["text"]) {
-      fs.appendFile(path.join(__dirname + "/express/COMP351/Labs/lab4/readFile/file.txt"), q.query["text"] + "\n", function (err) {
+      fs.appendFile(path.join(__dirname + "/public/COMP351/Labs/lab4/readFile/file.txt"), q.query["text"] + "\n", function (err) {
         if (err) {
           res.end("Error");
         } else {
@@ -41,12 +41,12 @@ http.createServer(function (req, res) {
   // Lab 4 Read from File
   else if (q.pathname.indexOf("/COMP351/Labs/lab4/readFile/") == 0) {
     console.log("Readfile " + path.basename(q.pathname));
-    filePath = "express/" + q.pathname;
+    filePath = "public/" + q.pathname;
   }
 
   // Lab 4 Delete File
   else if (q.pathname == "/COMP351/Labs/lab4/delFile/") {
-    fs.unlink(path.join(__dirname + "/express/COMP351/Labs/lab4/readFile/file.txt"), function () {
+    fs.unlink(path.join(__dirname + "/public/COMP351/Labs/lab4/readFile/file.txt"), function () {
       res.end("file.txt deleted");
       return;
     })
@@ -91,17 +91,12 @@ http.createServer(function (req, res) {
     }
   }
 
-  else if (q.pathname.includes("/COMP351/Labs/lab5/read")) {
-
-  }
-
   // Paths with no specific file e.g. https://localhost/ as opposed to https://localhost/index.html
   else if (q.pathname.indexOf(".") < 0) {
-    console.log("BASEDIR");
-    filePath = path.join("express" + q.pathname + "/index.html");
+    filePath = path.join("public" + q.pathname + "/index.html");
   }
   else {
-    filePath = 'express' + req.url;
+    filePath = 'public' + req.url;
   }
 
   let extname = String(path.extname(filePath)).toLowerCase();
@@ -132,7 +127,7 @@ http.createServer(function (req, res) {
   fs.readFile(filePath, function (error, content) {
     if (error) {
       if (error.code == 'ENOENT') {
-        fs.readFile('express/404.html', function (error, content) {
+        fs.readFile('public/404.html', function (error, content) {
           res.writeHead(404, { 'Content-Type': 'text/html' });
           res.end(content, 'utf-8');
         });
@@ -175,7 +170,7 @@ setInterval(function () {
       console.log(err);
       return;
     }
-    console.log('Connection to ' + DBHost + ":" + DBdb + ' Active...');
+    console.log('DB Connection active (' + DBHost + ":" + DBdb + ')');
   });
   //}, 5000); // For testing
 }, 45000); // Turns out 45s is slow enough to not feel like I'm wasting DB resources, but frequent enough to still work.
