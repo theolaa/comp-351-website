@@ -1,4 +1,4 @@
-// Thanks to Adrian De Niz for this static HTML server outline
+// Thanks to Adrian De Niz for this static HTML server template
 
 // Modules
 const http = require('http');
