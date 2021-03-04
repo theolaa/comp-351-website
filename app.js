@@ -6,6 +6,7 @@ const mysql = require('mysql');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
+const quiz = require('./personal_project');
 
 // Global Variables
 var DBconnected = false;
