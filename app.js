@@ -92,6 +92,20 @@ http.createServer(function (req, res) {
     }
   }
 
+  else if (q.pathname.includes("/getcar")) {
+    car = {
+      manufacturer: "Ford",
+      model: "Focus",
+      year: 2018,
+      colour: "white",
+      mileage: 100000,
+      price: 12000
+    }
+    res.writeHead(200, { 'Content-Type': "application/json" });
+    res.end(JSON.stringify(car), 'utf-8');
+    return;
+  }
+
   // Paths with no specific file e.g. https://localhost/ as opposed to https://localhost/index.html
   else if (q.pathname.indexOf(".") < 0) {
     filePath = path.join("public" + q.pathname + "/index.html");
