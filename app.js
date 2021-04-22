@@ -92,18 +92,28 @@ http.createServer(function (req, res) {
     }
   }
 
-  else if (q.pathname.includes("/getcar")) {
-    car = {
-      manufacturer: "Ford",
-      model: "Focus",
-      year: 2018,
-      colour: "white",
-      mileage: 100000,
-      price: 12000
+  else if (q.pathname.includes("/getcars")) {
+
+    if (DBconnected) {
+      con.query('SELECT * FROM cars;', function (err, result, fields) {
+        if (err) {
+          console.log(err);
+          res.writeHead(200, { "Access-Control-Allow-Origin": "*"});
+          res.end("Error reading from DB");
+        } else {
+          console.log(result);
+          res.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "application/json"});
+          contentString = [];
+          for (i = 0; i < result.length; i++) {
+            item = result[i];
+            contentString.push({"id": item.id, "manufacturer":item.manufacturer, "model":item.model, "year":item.year, "colour":item.colour, "mileage":item.mileage, "price":item.price});
+          }
+          res.write(JSON.stringify(contentString));
+          res.end();
+        }
+      });
+      return;
     }
-    res.writeHead(200, { 'Content-Type': "application/json" });
-    res.end(JSON.stringify(car), 'utf-8');
-    return;
   }
 
   // Paths with no specific file e.g. https://localhost/ as opposed to https://localhost/index.html
