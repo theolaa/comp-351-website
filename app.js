@@ -92,21 +92,53 @@ http.createServer(function (req, res) {
     }
   }
 
+  else if (q.pathname.includes("/updatecar")) {
+
+  }
+
+  else if (q.pathname.includes("/savecar")) {
+
+    if (req.method === 'POST') {
+      body = '';
+      req.on('data', chunk => {
+        body += chunk.toString(); // convert Buffer to string
+      });
+      req.on('end', () => {
+        body = JSON.parse(body);
+        if (DBconnected) {
+          con.query(`INSERT INTO \`cars\`(\`manufacturer\`, \`model\`, \`year\`, \`colour\`, \`mileage\`, \`price\`) VALUES ('${body.manufacturer}', '${body.model}', ${body.year}, '${body.colour}', ${body.mileage}, ${body.price});`, function (err, rows) {
+            temp = res;
+            if (err) {
+              console.log(err);
+              res.writeHead(200, { "Access-Control-Allow-Origin": "*" });
+              res.end("Error writing to DB");
+            } else {
+              res.writeHead(200, { "Access-Control-Allow-Origin": "*" });
+              res.end("Car was successfully stored in the DB");
+            }
+          });
+          return;
+        }
+      });
+      return;
+    }
+  }
+
   else if (q.pathname.includes("/getcars")) {
 
     if (DBconnected) {
       con.query('SELECT * FROM cars;', function (err, result, fields) {
         if (err) {
           console.log(err);
-          res.writeHead(200, { "Access-Control-Allow-Origin": "*"});
+          res.writeHead(200, { "Access-Control-Allow-Origin": "*" });
           res.end("Error reading from DB");
         } else {
           console.log(result);
-          res.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "application/json"});
+          res.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "application/json" });
           contentString = [];
           for (i = 0; i < result.length; i++) {
             item = result[i];
-            contentString.push({"id": item.id, "manufacturer":item.manufacturer, "model":item.model, "year":item.year, "colour":item.colour, "mileage":item.mileage, "price":item.price});
+            contentString.push({ "id": item.id, "manufacturer": item.manufacturer, "model": item.model, "year": item.year, "colour": item.colour, "mileage": item.mileage, "price": item.price });
           }
           res.write(JSON.stringify(contentString));
           res.end();
