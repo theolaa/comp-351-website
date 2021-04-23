@@ -92,7 +92,46 @@ http.createServer(function (req, res) {
   }
 
   else if (q.pathname.includes("/deletecar")) {
-
+    if (req.method === 'POST') {
+      body = '';
+      req.on('data', chunk => {
+        body += chunk.toString(); // convert Buffer to string
+      });
+      req.on('end', () => {
+        if (body.length == 0) {
+          res.writeHead(400, { "Access-Control-Allow-Origin": "*" });
+          res.end("No POST data sent");
+          return;
+        }
+        try {
+          body = JSON.parse(body)
+        }
+        catch (err) {
+          res.writeHead(400, { "Access-Control-Allow-Origin": "*" });
+          res.end("Invalid JSON");
+          return;
+        }
+        if (DBconnected) {
+          con.query(`DELETE FROM \`cars\` WHERE \`id\`=${body.id};`, function (err, rows) {
+            if (err) {
+              console.log(err);
+              res.writeHead(400, { "Access-Control-Allow-Origin": "*" });
+              res.end("Error deleting DB");
+            } else {
+              if (rows.affectedRows == 0) {
+                res.writeHead(400, { "Access-Control-Allow-Origin": "*" });
+                res.end("Invalid ID");
+              } else {
+                res.writeHead(200, { "Access-Control-Allow-Origin": "*" });
+                res.end("Car was successfully deleted from the DB");
+              }
+            }
+          });
+          return;
+        }
+      });
+      return;
+    }
   }
 
   else if (q.pathname.includes("/updatecar")) {
