@@ -92,6 +92,10 @@ http.createServer(function (req, res) {
     }
   }
 
+  else if (q.pathname.includes("/deletecar")) {
+
+  }
+
   else if (q.pathname.includes("/updatecar")) {
 
   }
@@ -104,7 +108,19 @@ http.createServer(function (req, res) {
         body += chunk.toString(); // convert Buffer to string
       });
       req.on('end', () => {
-        body = JSON.parse(body);
+        if (body.length == 0) {
+          res.writeHead(400, { "Access-Control-Allow-Origin": "*" });
+          res.end("No POST data sent");
+          return;
+        }
+        try {
+          body = JSON.parse(body)
+        }
+        catch (err) {
+          res.writeHead(400, { "Access-Control-Allow-Origin": "*" });
+          res.end("Invalid JSON");
+          return;
+        }
         if (DBconnected) {
           con.query(`INSERT INTO \`cars\`(\`manufacturer\`, \`model\`, \`year\`, \`colour\`, \`mileage\`, \`price\`) VALUES ('${body.manufacturer}', '${body.model}', ${body.year}, '${body.colour}', ${body.mileage}, ${body.price});`, function (err, rows) {
             temp = res;
