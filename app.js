@@ -57,7 +57,6 @@ http.createServer(function (req, res) {
   else if (q.pathname.includes("/COMP351/Labs/lab5/write")) {
     if (DBconnected) {
       con.query('INSERT INTO score VALUES ("' + q.query.name + '",' + q.query.score + ');', function (err, rows) {
-        temp = res;
         if (err) {
           console.log(err);
           res.writeHead(200, { "Access-Control-Allow-Origin": "*" });
@@ -97,7 +96,46 @@ http.createServer(function (req, res) {
   }
 
   else if (q.pathname.includes("/updatecar")) {
-
+    if (req.method === 'POST') {
+      body = '';
+      req.on('data', chunk => {
+        body += chunk.toString(); // convert Buffer to string
+      });
+      req.on('end', () => {
+        if (body.length == 0) {
+          res.writeHead(400, { "Access-Control-Allow-Origin": "*" });
+          res.end("No POST data sent");
+          return;
+        }
+        try {
+          body = JSON.parse(body)
+        }
+        catch (err) {
+          res.writeHead(400, { "Access-Control-Allow-Origin": "*" });
+          res.end("Invalid JSON");
+          return;
+        }
+        if (DBconnected) {
+          con.query(`UPDATE \`cars\` SET \`manufacturer\`='${body.manufacturer}',\`model\`='${body.model}',\`year\`=${body.year},\`colour\`='${body.colour}',\`mileage\`=${body.mileage},\`price\`=${body.price} WHERE \`id\` = ${body.id};`, function (err, rows) {
+            if (err) {
+              console.log(err);
+              res.writeHead(400, { "Access-Control-Allow-Origin": "*" });
+              res.end("Error writing to DB");
+            } else {
+              if (rows.affectedRows == 0) {
+                res.writeHead(400, { "Access-Control-Allow-Origin": "*" });
+                res.end("Invalid ID");
+              } else {
+                res.writeHead(200, { "Access-Control-Allow-Origin": "*" });
+                res.end("Car was successfully updated in the DB");
+              }
+            }
+          });
+          return;
+        }
+      });
+      return;
+    }
   }
 
   else if (q.pathname.includes("/savecar")) {
@@ -123,10 +161,9 @@ http.createServer(function (req, res) {
         }
         if (DBconnected) {
           con.query(`INSERT INTO \`cars\`(\`manufacturer\`, \`model\`, \`year\`, \`colour\`, \`mileage\`, \`price\`) VALUES ('${body.manufacturer}', '${body.model}', ${body.year}, '${body.colour}', ${body.mileage}, ${body.price});`, function (err, rows) {
-            temp = res;
             if (err) {
               console.log(err);
-              res.writeHead(200, { "Access-Control-Allow-Origin": "*" });
+              res.writeHead(400, { "Access-Control-Allow-Origin": "*" });
               res.end("Error writing to DB");
             } else {
               res.writeHead(200, { "Access-Control-Allow-Origin": "*" });
